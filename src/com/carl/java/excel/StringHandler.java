@@ -12,14 +12,14 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author: Peichen Xu
  * @since: 2016-8-10
  */
-public class MyHandler extends DefaultHandler {
+public class StringHandler extends DefaultHandler {
 	
-	private static final String TAG = MyHandler.class.getSimpleName();
+	private static final String TAG = StringHandler.class.getSimpleName();
 	private List<Entry> mList;
 	private Entry mEntryCur;
 	private StringBuilder mSb;
 
-	public MyHandler() {
+	public StringHandler() {
 		// TODO Auto-generated constructor stub
 	}
 	

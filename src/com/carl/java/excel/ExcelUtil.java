@@ -1,6 +1,7 @@
 package com.carl.java.excel;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -18,29 +19,64 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelUtil {
 
-	public static void writeExcel(String path, List<Entry> list) throws InvalidFormatException, IOException {
+	public static void writeExcel(String path, String sheetName,
+			List<Entry> list, String[] languages, String valueLanguage)
+			throws InvalidFormatException, IOException {
 		if (list == null || list.size() <= 0) {
 			return;
 		}
-		String sheetName = "Picture";
-		XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+		File f = new File(path);
+		boolean newFile = !f.exists();
+		XSSFWorkbook xssfWorkbook = null;
+		FileInputStream fis = null;
+		if (newFile) {
+			xssfWorkbook = new XSSFWorkbook();
+		} else {
+			fis = new FileInputStream(f);
+			xssfWorkbook = new XSSFWorkbook(fis);
+		}
+
+		if (xssfWorkbook.getSheet(sheetName) != null) {
+			xssfWorkbook.removeSheetAt(xssfWorkbook.getSheetIndex(sheetName));
+		}
 		xssfWorkbook.createSheet(sheetName);
 		XSSFSheet xssfSheet = xssfWorkbook.getSheet(sheetName);
 		XSSFRow row0 = xssfSheet.createRow(0);
 		XSSFCell cell0 = row0.createCell(0);
 		cell0.setCellValue("name");
-		cell0 = row0.createCell(1);
-		cell0.setCellValue("zh-rCN");
+
+		int indexValue = -1;
+		for (int i = 0; i < languages.length; i++) {
+			int j = i + 1;
+			cell0 = row0.createCell(j);
+			cell0.setCellValue(languages[i]);
+			if (languages[i].equalsIgnoreCase(valueLanguage)) {
+				indexValue = j;
+			}
+		}
+		if (indexValue <= 0) {
+			indexValue = languages.length + 1;
+			cell0 = row0.createCell(indexValue);
+			cell0.setCellValue(valueLanguage);
+		}
+
 		for (int i = 0; i < list.size(); i++) {
 			Entry entry = list.get(i);
 			XSSFRow row = xssfSheet.createRow(i + 1);
 			XSSFCell cell = row.createCell(0);
 			cell.setCellValue(entry.getName());
-			cell = row.createCell(1);
+			cell = row.createCell(indexValue);
 			cell.setCellValue(entry.getValue());
 		}
-		
-		xssfWorkbook.write(new FileOutputStream(path));
+
+		FileOutputStream fos = new FileOutputStream(path, false);
+		fos.flush();
+		xssfWorkbook.write(fos);
+		if (fis != null) {
+			fis.close();
+		}
+		fos.close();
+
 		xssfWorkbook.close();
 	}
 

@@ -42,7 +42,33 @@ public class XmlUtil {
 		try {
 			SAXParser parser = factory.newSAXParser();
 			File f = new File(path);
-			MyHandler dh = new MyHandler();
+			StringHandler dh = new StringHandler();
+			parser.parse(f, dh);
+			List<Entry> list = dh.getList();
+			
+			return list;
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<Entry> readXmlArray(String path) {
+		if (path == null) {
+			return null;
+		}
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		try {
+			SAXParser parser = factory.newSAXParser();
+			File f = new File(path);
+			ArrayHandler dh = new ArrayHandler();
 			parser.parse(f, dh);
 			List<Entry> list = dh.getList();
 			

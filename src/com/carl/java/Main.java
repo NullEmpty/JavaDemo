@@ -8,6 +8,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.carl.java.excel.Entry;
 import com.carl.java.excel.ExcelUtil;
 import com.carl.java.excel.XmlUtil;
+import com.carl.java.excel.model.Xml2XlsxModel;
 
 /**
  * @author: Peichen Xu
@@ -20,7 +21,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		testExcelWrite();
+		Xml2XlsxModel model = new Xml2XlsxModel();
+		model.exec("C:\\Users\\pcxu\\Desktop\\excel_test\\XML2XLSX.config");
 	}
 	
 	private static void testExcelRead() {
@@ -36,9 +38,22 @@ public class Main {
 	}
 	
 	private static void testExcelWrite() {
-		List<Entry> list = XmlUtil.readXml("C:\\Users\\pcxu\\Desktop\\excel_test\\Picture.xml");
+		List<Entry> list = XmlUtil.readXml("C:\\Users\\pcxu\\Desktop\\excel_test\\settings.xml");
 		try {
-			ExcelUtil.writeExcel("C:\\Users\\pcxu\\Desktop\\excel_test\\Picture.xlsx", list);
+			ExcelUtil.writeExcel("C:\\Users\\pcxu\\Desktop\\excel_test\\settings.xlsx", "settings_array", list, new String[]{"cn_rZH", "en"}, "cn_rZH");
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private static void testExcelArrayWrite() {
+		List<Entry> list = XmlUtil.readXmlArray("C:\\Users\\pcxu\\Desktop\\excel_test\\arrays.xml");
+		try {
+			ExcelUtil.writeExcel("C:\\Users\\pcxu\\Desktop\\excel_test\\settings_array.xlsx", "settings_array", list, new String[]{"cn_rZH", "en"}, "cn_rZH");
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,6 +65,16 @@ public class Main {
 	
 	private static void testXmlRead() {
 		List<Entry> list = XmlUtil.readXml("C:\\Users\\pcxu\\Desktop\\excel_test\\strings.xml");
+		if (list != null) {
+			System.out.println("======================================");
+			for (Entry entry : list) {
+				System.out.println(entry.toString());
+			}
+		}
+	}
+	
+	private static void testXmlArrayRead() {
+		List<Entry> list = XmlUtil.readXmlArray("C:\\Users\\pcxu\\Desktop\\excel_test\\arrays.xml");
 		if (list != null) {
 			System.out.println("======================================");
 			for (Entry entry : list) {
