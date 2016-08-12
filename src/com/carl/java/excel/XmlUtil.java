@@ -1,28 +1,25 @@
 package com.carl.java.excel;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.impl.AttributeImpl;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * @author: Peichen Xu
@@ -124,55 +121,73 @@ public class XmlUtil {
 		}
 	}
 	
-	public static void writeXml2(List<Entry> list) {
-		if (list == null || list.size() <= 0) {
+	public static void updateXml(Map<String, Entry> map, String pathSrc, String pathDst) {
+		if (map == null || map.isEmpty()) {
 			return;
 		}
-		String path = "C:\\Users\\pcxu\\Desktop\\excel_test\\sax.xml";
-		File file = new File(path);
-		if (file.exists()) {
-			file.delete();
+		File fileSrc = new File(pathSrc);
+		if (!fileSrc.exists()) {
+			return;
+		}
+		File fileDst = new File(pathDst);
+		if (fileDst.exists()) {
+			fileDst.delete();
 		}
 		try {
-			file.createNewFile();
-		} catch (IOException e) {
+			fileDst.createNewFile();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
-		SAXTransformerFactory sff = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+		BufferedReader brSrc = null;
+		BufferedWriter bwDst = null;
 		try {
-			TransformerHandler th = sff.newTransformerHandler();
-			Transformer transformer = th.getTransformer();
-			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			
-			File f = new File(path);
-			if (!f.exists()) {
-				f.createNewFile();
+			brSrc= new BufferedReader(new FileReader(fileSrc));
+			bwDst= new BufferedWriter(new FileWriter(fileDst));
+			String line = null;
+			Pattern pattern = Pattern.compile(" name=\"\\w+\"");// name="\w+"
+			while((line=brSrc.readLine()) != null) {
+				
+				Matcher matcher = pattern.matcher(line);
+				if (matcher.find()) {
+					String result = matcher.group().trim();
+					
+					String name = result.replace("name=\"", "").replace("\"", "");
+					System.out.println("name=" + name);
+					Entry entry = map.get(name);
+					if (entry != null && entry.getValue() != null) {
+						String newValue = entry.getValue();
+						System.out.println("newValue=" + newValue);
+						line = line.replaceAll(">.*</string>", ">" + newValue + "</string>");
+					}
+				}
+				bwDst.write(line);
+				bwDst.newLine();
 			}
-			Result resultString = new StreamResult(new FileOutputStream(f));
-			th.setResult(resultString);
-			th.startDocument();
 			
-			AttributeImpl attr = new AttributeImpl(null);
-			Attributes atts = new AttributesImpl();
-			th.startElement("", "", QNAME_RESOURCES, null);
-			
-			th.startElement("", "", QNAME_STRING, atts);
-			th.endElement("", "", QNAME_STRING);
-			
-			th.endElement("", "", QNAME_RESOURCES);
-			th.endDocument();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
+			bwDst.flush();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				if (bwDst != null) {
+					bwDst.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (brSrc != null) {
+					brSrc.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 	}
+	
 	
 }

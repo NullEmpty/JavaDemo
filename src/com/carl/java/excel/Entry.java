@@ -1,4 +1,9 @@
 package com.carl.java.excel;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author: Peichen Xu
  * @since: 2016-8-10
@@ -30,6 +35,18 @@ public class Entry {
 	
 	public String toString() {
 		return new StringBuilder().append("name=").append(name).append(",value=").append(value).append(",value_en=").append(value_en).toString();
+	}
+	
+	public static Map<String, Entry> formatList2Map(List<Entry> list) {
+		if (list == null || list.size() == 0) {
+			return null;
+		}
+		Map<String, Entry> map = new HashMap<String, Entry>();
+		for (Entry entry : list) {
+			map.put(entry.getName(), entry);
+		}
+		
+		return map;
 	}
 
 }

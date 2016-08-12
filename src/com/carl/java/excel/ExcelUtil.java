@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -18,6 +19,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @since: 2016-8-10
  */
 public class ExcelUtil {
+	
+	private static final String KEY_NAME = "name";
 
 	public static void writeExcel(String path, String sheetName,
 			List<Entry> list, String[] languages, String valueLanguage)
@@ -43,7 +46,7 @@ public class ExcelUtil {
 		XSSFSheet xssfSheet = xssfWorkbook.getSheet(sheetName);
 		XSSFRow row0 = xssfSheet.createRow(0);
 		XSSFCell cell0 = row0.createCell(0);
-		cell0.setCellValue("name");
+		cell0.setCellValue(KEY_NAME);
 
 		int indexValue = -1;
 		for (int i = 0; i < languages.length; i++) {
@@ -78,6 +81,51 @@ public class ExcelUtil {
 		fos.close();
 
 		xssfWorkbook.close();
+	}
+	
+	public static List<Entry> ReadExcel(String path, String sheetName,
+			String valueLanguage)
+			throws InvalidFormatException, IOException {
+		if (sheetName == null || valueLanguage == null) {
+			return null;
+		}
+		File f = new File(path);
+		if (!f.exists()) {
+			return null;
+		}
+		XSSFWorkbook xssfWorkbook = new XSSFWorkbook(f);
+
+		XSSFSheet xssfSheet = xssfWorkbook.getSheet(sheetName);
+		XSSFRow row0 = xssfSheet.getRow(0);
+		int cellEnd = row0.getLastCellNum();
+		int indexValue = -1;
+		for (int i = 0; i <= cellEnd; i ++) {
+			XSSFCell xssfCell = row0.getCell(i);
+			if (xssfCell != null && valueLanguage.equals(xssfCell.getStringCellValue())) {
+				indexValue = i;
+				break;
+			}
+		}
+		if (indexValue <= 0) {
+			return null;
+		}
+		List<Entry> list = new ArrayList<Entry>();
+		int rowEnd = xssfSheet.getLastRowNum();
+		for (int i = 1; i <= rowEnd; i ++) {
+			XSSFRow row = xssfSheet.getRow(i);
+			XSSFCell cellName = row.getCell(0);
+			XSSFCell cellValue = row.getCell(indexValue);
+			if (cellValue == null) {
+				continue;
+			}
+			Entry entry = new Entry();
+			entry.setName(cellName.getStringCellValue());
+			entry.setValue(cellValue.getStringCellValue());
+			list.add(entry);
+		}
+		
+		xssfWorkbook.close();
+		return list;
 	}
 
 	public static void test(String path) throws InvalidFormatException,
