@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">视频</string>
+  <string name="video">视 频</string>
+  <string name="no_video_text">没有文件</string>
+  <string name="delete_video_succ">删除成功</string>
+  <string name="separate">/</string>
+  <string name="continue_play">接着上一次继续播放</string>
+  <string name="notice_video_cannot_open">该视频文件不能播放</string>
+  <string name="notice_double_click_back">&lt;&lt;双击返回</string>
+  <string name="otg_usb">可移动磁盘</string>
+  <string name="sort_title">文件排序</string>
+  <string name="sort_date">时  间</string>
+  <string name="sort_file_name">文件名</string>
+  <string name="menu_cancel">取 消</string>
+  <string name="menu_delete">删 除</string>
+  <string name="sub_close">关闭</string>
+  <string name="menu_sub">字 幕</string>
+  <string name="menu_track">音 轨</string>
+  <string name="menu_change_option">切换选项</string>
+  <string name="menu_select_sub">选择字幕</string>
+  <string name="menu_select_track">选择音轨</string>
+</resources>
