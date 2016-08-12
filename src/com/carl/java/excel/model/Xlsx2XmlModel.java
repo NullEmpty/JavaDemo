@@ -14,17 +14,17 @@ import com.carl.java.excel.config.ConfigXlsx2Xml;
  * @author: Peichen Xu
  * @since: 2016-8-11
  */
-public class Xlsx2XmlModel {
+public class Xlsx2XmlModel extends BaseModel{
 
 	public Xlsx2XmlModel() {
 
 	}
 
-	public void exec(String configPath) {
+	public boolean exec(String configPath) {
 		List<ConfigXlsx2Xml> configList = ConfigXlsx2Xml.parse(configPath);
 		if (configList == null || configList.size() <= 0) {
 			System.out.println("Xlsx2XmlModel=null");
-			return;
+			return false;
 		}
 
 		try {
@@ -41,6 +41,7 @@ public class Xlsx2XmlModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return true;
 
 	}
 

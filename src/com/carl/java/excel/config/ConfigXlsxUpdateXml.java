@@ -54,11 +54,13 @@ public class ConfigXlsxUpdateXml {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("xmlPathSrc="+ xmlPathSrc)
+		sb.append("--------------CONFIG-------------")
+		.append("\nxmlPathSrc="+ xmlPathSrc)
 		.append("\nxmlPathDst="+ xmlPathDst)
 		.append("\nxlsxPath=" + xlsxPath)
 		.append("\nsheetName=" + sheetName)
-		.append("\nvalue=" + value);
+		.append("\nvalue=" + value)
+		.append("\n--------------END-------------");
 		return sb.toString();
 	}
 	

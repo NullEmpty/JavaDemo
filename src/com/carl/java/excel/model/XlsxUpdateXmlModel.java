@@ -15,17 +15,17 @@ import com.carl.java.excel.config.ConfigXlsxUpdateXml;
  * @author: Peichen Xu
  * @since: 2016-8-11
  */
-public class XlsxUpdateXmlModel {
+public class XlsxUpdateXmlModel extends BaseModel{
 
 	public XlsxUpdateXmlModel() {
 
 	}
 
-	public void exec(String configPath) {
+	public boolean exec(String configPath) {
 		List<ConfigXlsxUpdateXml> configList = ConfigXlsxUpdateXml.parse(configPath);
 		if (configList == null || configList.size() <= 0) {
 			System.out.println("Xlsx2XmlModel=null");
-			return;
+			return false;
 		}
 
 		try {
@@ -35,6 +35,7 @@ public class XlsxUpdateXmlModel {
 				
 				XmlUtil.updateXml(Entry.formatList2Map(entryList), config.getXmlPathSrc(), config.getXmlPathDst());
 			}
+			return true;
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,6 +43,7 @@ public class XlsxUpdateXmlModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 
 	}
 

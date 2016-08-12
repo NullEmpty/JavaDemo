@@ -31,7 +31,7 @@ public class StringHandler extends DefaultHandler {
 	public void endDocument() throws SAXException {
 		// TODO Auto-generated method stub
 		super.endDocument();
-		System.out.println("endDocument");
+//		System.out.println("endDocument");
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class StringHandler extends DefaultHandler {
 			throws SAXException {
 		// TODO Auto-generated method stub
 		super.endElement(uri, localName, qName);
-		System.out.println("end---uri=" + uri + ",localName=" + localName + ",qName=" + qName);
+//		System.out.println("end---uri=" + uri + ",localName=" + localName + ",qName=" + qName);
 		
 		if ("string".equals(qName)) {
 			if (mEntryCur != null) {
@@ -55,7 +55,7 @@ public class StringHandler extends DefaultHandler {
 	public void startDocument() throws SAXException {
 		// TODO Auto-generated method stub
 		super.startDocument();
-		System.out.println("startDocument");
+//		System.out.println("startDocument");
 		mList = new ArrayList<Entry>();
 	}
 
@@ -64,8 +64,8 @@ public class StringHandler extends DefaultHandler {
 			Attributes attributes) throws SAXException {
 		// TODO Auto-generated method stub
 		super.startElement(uri, localName, qName, attributes);
-		System.out.println("start---uri=" + uri + ",localName=" + localName + ",qName=" + qName);
-		System.out.println("attributes=" + attributes.getValue("name"));
+//		System.out.println("start---uri=" + uri + ",localName=" + localName + ",qName=" + qName);
+//		System.out.println("attributes=" + attributes.getValue("name"));
 		
 		if ("string".equals(qName)) {
 			mEntryCur = new Entry();
@@ -76,7 +76,7 @@ public class StringHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		System.out.println("characters=" + new String(ch, start, length));
+//		System.out.println("characters=" + new String(ch, start, length));
 		if (mSb == null) {
 			mSb = new StringBuilder();
 		}
