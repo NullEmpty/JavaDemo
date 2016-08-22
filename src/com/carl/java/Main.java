@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import com.carl.java.excel.Entry;
+import com.carl.java.excel.ExcelUtil;
+import com.carl.java.excel.XmlUtil;
 import com.carl.java.excel.config.ConfigUtil;
-import com.carl.java.excel.config.ConfigXlsx2Xml;
-import com.carl.java.excel.config.ConfigXlsxUpdateXml;
-import com.carl.java.excel.config.ConfigXml2Xlsx;
 import com.carl.java.excel.model.BaseModel;
 import com.carl.java.excel.model.Xlsx2XmlModel;
 import com.carl.java.excel.model.XlsxUpdateXmlModel;
@@ -65,6 +67,26 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+//		test();
+	}
+	
+	private static void test() {
+		String pathXml = "C:\\Users\\pcxu\\Desktop\\excel_t2\\settings_2.xml";
+		List<Entry> list = XmlUtil.readXml(pathXml);
+		Map<String, Entry> map = Entry.formatList2Map(list);
+		String pathXlsx = "C:\\Users\\pcxu\\Desktop\\excel_t2\\20160810_X2 中文UI语言整理.xlsx";
+		try {
+			ExcelUtil.updateExcel(pathXlsx, "settings", map, "英文");
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	private static void selectXmlAndXlsx() throws IOException {
@@ -95,7 +117,8 @@ public class Main {
 		case 3:
 			String configPath3 = ConfigUtil.PATH_CONFIG_XLSX_UPDATE_XML;
 			System.out.println("start");
-			BaseModel model3 = BaseModel.newModel("", XlsxUpdateXmlModel.class);
+//			BaseModel model3 = BaseModel.newModel("", XlsxUpdateXmlModel.class);
+			BaseModel model3 = new XlsxUpdateXmlModel();
 			boolean succ3 = model3.exec(configPath3);
 			System.out.println("end:" + (succ3 ? "success" : "fail"));
 			break;

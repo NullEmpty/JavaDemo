@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -83,6 +85,54 @@ public class ExcelUtil {
 		xssfWorkbook.close();
 	}
 	
+	public static void updateExcel(String path, String sheetName,
+			Map<String, Entry> map, String valueLanguage)
+			throws InvalidFormatException, IOException {
+		if (map == null || map.size() <= 0) {
+			return;
+		}
+		System.out.println("map size=" + map.size());
+		File f = new File(path);
+		boolean newFile = !f.exists();
+		newFile = false;
+		XSSFWorkbook xssfWorkbook = null;
+		FileInputStream fis = null;
+		if (newFile) {
+			xssfWorkbook = new XSSFWorkbook();
+		} else {
+			fis = new FileInputStream(f);
+			xssfWorkbook = new XSSFWorkbook(fis);
+		}
+
+		XSSFSheet xssfSheet = xssfWorkbook.getSheet(sheetName);
+		int indexLanguage = 3;
+
+		int rowstart = xssfSheet.getFirstRowNum();
+		int rowEnd = xssfSheet.getLastRowNum();
+		System.out.println("rowstart=" + rowstart +",rowEnd=" + rowEnd);
+		for (int i = rowstart; i <= rowEnd; i ++) {
+			XSSFRow row = xssfSheet.getRow(i);
+			String name = row.getCell(0).getStringCellValue();
+			Entry entry = map.get(name);
+			System.out.println("name=" + name);
+			if (entry == null || entry.getValue() == null) {
+				continue;
+			}
+			
+			row.getCell(indexLanguage).setCellValue(entry.getValue());
+		}
+
+		FileOutputStream fos = new FileOutputStream(path, false);
+		fos.flush();
+		xssfWorkbook.write(fos);
+		if (fis != null) {
+			fis.close();
+		}
+		fos.close();
+
+		xssfWorkbook.close();
+	}
+	
 	public static List<Entry> ReadExcel(String path, String sheetName,
 			String valueLanguage)
 			throws InvalidFormatException, IOException {
@@ -114,6 +164,9 @@ public class ExcelUtil {
 		for (int i = 1; i <= rowEnd; i ++) {
 			XSSFRow row = xssfSheet.getRow(i);
 			XSSFCell cellName = row.getCell(0);
+			if (cellName == null) {
+				continue;
+			}
 			XSSFCell cellValue = row.getCell(indexValue);
 			if (cellValue == null) {
 				continue;
@@ -122,6 +175,7 @@ public class ExcelUtil {
 			entry.setName(cellName.getStringCellValue());
 			entry.setValue(cellValue.getStringCellValue());
 			list.add(entry);
+			
 		}
 		
 		xssfWorkbook.close();

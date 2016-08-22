@@ -158,7 +158,24 @@ public class XmlUtil {
 					if (entry != null && entry.getValue() != null) {
 						String newValue = entry.getValue();
 						System.out.println("newValue=" + newValue);
-						line = line.replaceAll(">.*</string>", ">" + newValue + "</string>");
+						
+						int index1 = line.indexOf(">") + 1;
+						int index2 = line.lastIndexOf("</");
+						if (index1 > 0 && index2 > 0) {
+							line = line.substring(0, index1) + newValue + line.substring(index2, line.length());
+						}
+//						try {
+//							line = line.replaceAll(">.*</string>", ">" + newValue + "</string>");
+//						} catch (IllegalArgumentException e) {
+//							e.printStackTrace();
+//							System.out.println("==================ERROR:" + entry.getName() + "," + entry.getValue());
+//							line = line.replaceAll(">.*</string>", ">ERROR</string>");
+//							int index1 = line.indexOf("<");
+//							int index2 = line.indexOf("</");
+//							if (index1 > 0 && index2 > 0) {
+//								line = line.substring(0, index1) + newValue + line.substring(index2, line.length());
+//							}
+//						}
 					}
 				}
 				bwDst.write(line);
