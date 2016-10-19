@@ -100,7 +100,8 @@ public class Main {
 		case 1:
 			String configPath = ConfigUtil.PATH_CONFIG_XML2XLSX;
 			System.out.println("start");
-			BaseModel model = BaseModel.newModel("", Xml2XlsxModel.class);
+//			BaseModel model = BaseModel.newModel("", Xml2XlsxModel.class);
+			BaseModel model = new Xml2XlsxModel();
 			boolean succ = model.exec(configPath);
 			System.out.println("end:" + (succ ? "success" : "fail"));
 			
