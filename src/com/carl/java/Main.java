@@ -1,6 +1,7 @@
 package com.carl.java;
 
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,10 @@ public class Main {
 		MAP_MAIN.put(1, "xml and xlsx");
 		MAP_MAIN.put(0, "quite");
 		
-		MAP_XML_XLSX.put(1, "xml2xlsx");
-		MAP_XML_XLSX.put(2, "xlsx2xml");
-		MAP_XML_XLSX.put(3, "xlsx update xml");
+		MAP_XML_XLSX.put(0, "quite");
+		MAP_XML_XLSX.put(1, "xml2xlsx--将values下strings.xml的词条整理到xlsx");
+		MAP_XML_XLSX.put(2, "xlsx2xml--用xlsx生成strings.xml");
+		MAP_XML_XLSX.put(3, "xlsx update xml--根据字符串名，用xlsx中翻译替换xml中对应词条");
 	}
 
 	/**
@@ -51,7 +53,7 @@ public class Main {
 
 		try {
 			int main = select(MAP_MAIN);
-			System.out.println("main select=" + main + MAP_MAIN.get(main));
+			System.out.println("[main] select:" + main + "," + MAP_MAIN.get(main));
 			switch (main) {
 			case 0:
 				System.exit(0);
@@ -91,7 +93,7 @@ public class Main {
 	
 	private static void selectXmlAndXlsx() throws IOException {
 		int xml_xlsx = select(MAP_XML_XLSX);
-		System.out.println("xml_xlsx select=" + xml_xlsx + MAP_XML_XLSX.get(xml_xlsx));
+		System.out.println("[xml_xlsx] select:" + xml_xlsx + "," + MAP_XML_XLSX.get(xml_xlsx));
 		switch (xml_xlsx) {
 		case 0:
 			System.exit(0);
@@ -134,8 +136,9 @@ public class Main {
 		}
 		Set<Integer> keyset = map.keySet();
 		for (Integer key : keyset) {
-			System.out.println(key + "," + map.get(key));
+			System.out.println(String.format("[%d]:%s",key,map.get(key)));
 		}
+		System.out.println(System.getProperty("user.dir"));
 		System.out.println("input:");
 
 		Integer input = null;

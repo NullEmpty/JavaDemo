@@ -2,9 +2,11 @@ package com.carl.java.excel.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class ConfigXlsx2Xml {
 		List<ConfigXlsx2Xml> list = new ArrayList<ConfigXlsx2Xml>();
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(f));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(configPath), "UTF-8"));
 			String line = null;
 			ConfigXlsx2Xml config = null;
 			while((line = br.readLine()) != null) {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Videos</string>
+  <string name="video">Videos</string>
+  <string name="no_video_text">No file</string>
+  <string name="no_video_text_desc">Get video from computer, internet, or external flash storage</string>
+  <string name="delete_video_succ">Deleted</string>
+  <string name="separate">&#160;/&#160;</string>
+  <string name="continue_play">Resume watching from where you left off</string>
+
+  <string name="notice_video_cannot_open">Unable to play this video</string>
+  <string name="notice_video_cannot_open_msg">Please check your network and device</string>
+  <string name="otg_usb">Removable disk</string>
+  <string name="sort_title">Arrange by:</string>
+  <string name="sort_date">Time</string>
+  <string name="sort_file_name">Title</string>
+  <string name="menu_cancel">Cancel</string>
+  <string name="menu_delete">Delete</string>
+  <string name="sub_close">Close</string>
+  <string name="menu_sub">Subtitle</string>
+  <string name="menu_track">Sound track</string>
+  <string name="menu_change_option">Please select a switching option</string>
+  <string name="menu_select_sub">Please select a subtitle</string>
+  <string name="menu_select_track">Please select a sound track</string>
+  <string name="help_sub">Long press the Home key to \nselect the track or subtitle ~</string>
+  <string name="help_forward_1">Fast forward / Rewind</string>
+  <string name="help_forward_2">Swipe and hold the touchpad ~</string>
+</resources>

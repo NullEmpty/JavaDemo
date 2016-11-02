@@ -2,9 +2,11 @@ package com.carl.java.excel.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +26,27 @@ public class ConfigXlsxUpdateXml {
 		return xmlPathSrc;
 	}
 	public void setXmlPathSrc(String path) {
+		if (path != null && !path.contains(":")) {
+			this.xmlPathSrc = ConfigUtil.getCurDir() + "\\" + path;
+		}
 		this.xmlPathSrc = path;
 	}
 	public String getXmlPathDst() {
 		return xmlPathDst;
 	}
 	public void setXmlPathDst(String xmlPathDst) {
+		if (xmlPathDst != null && !xmlPathDst.contains(":")) {
+			this.xmlPathDst = ConfigUtil.getCurDir() + "\\" + xmlPathDst;
+		}
 		this.xmlPathDst = xmlPathDst;
 	}
 	public String getXlsxPath() {
 		return xlsxPath;
 	}
 	public void setXlsxPath(String xlsxPath) {
+		if (xlsxPath != null && !xlsxPath.contains(":")) {
+			this.xlsxPath = ConfigUtil.getCurDir() + "\\" + xlsxPath;
+		}
 		this.xlsxPath = xlsxPath;
 	}
 	public String getSheetName() {
@@ -72,7 +83,7 @@ public class ConfigXlsxUpdateXml {
 		List<ConfigXlsxUpdateXml> list = new ArrayList<ConfigXlsxUpdateXml>();
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(f));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(configPath), "UTF-8"));
 			String line = null;
 			ConfigXlsxUpdateXml config = null;
 			while((line = br.readLine()) != null) {

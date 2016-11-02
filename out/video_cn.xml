@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">视频</string>
+  <string name="video">视 频</string>
+  <string name="no_video_text">没有文件</string>
+  <string name="no_video_text_desc">您可以通过电脑拷贝、无线网推送、或外接移动存储设备观看视频</string>
+  <string name="delete_video_succ">删除成功</string>
+  <string name="separate">&#160;/&#160;</string>
+  <string name="continue_play">接着上一次继续播放</string>
+  <string name="notice_video_cannot_open">视频加载失败</string>
+  <string name="notice_video_cannot_open_msg">请检查网络和设备</string>
+  <string name="otg_usb">可移动磁盘</string>
+  <string name="sort_title">请选择排序方式</string>
+  <string name="sort_date">创建时间</string>
+  <string name="sort_file_name">文件名</string>
+  <string name="menu_cancel">取 消</string>
+  <string name="menu_delete">删 除</string>
+  <string name="sub_close">关闭</string>
+  <string name="menu_sub">字 幕</string>
+  <string name="menu_track">音 轨</string>
+  <string name="menu_change_option">请选择切换选项</string>
+  <string name="menu_select_sub">请选择字幕</string>
+  <string name="menu_select_track">请选择音轨</string>
+  <string name="help_sub">长按HOME选择音轨和字幕~</string>
+  <string name="help_forward_1">快退/快进</string>
+  <string name="help_forward_2">水平方向滑动后长按触控板~</string>
+</resources>
